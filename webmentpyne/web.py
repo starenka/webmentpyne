@@ -66,6 +66,12 @@ def index():
     return render_template('index.html', **context)
 
 
+@app.route('/connection-error/')
+def error():
+    context = {}
+    return render_template('partials/connection_error.html', **context)
+
+
 @app.route('/player/<action>/')
 @app.route('/player/OpenUri/<path:uri>', defaults={'action': 'OpenUri'})
 @inject_ifaces
@@ -83,7 +89,8 @@ def player_action(action, uri=None, **kwargs):
 @inject_ifaces
 def player_props(**kwargs):
     meta = kwargs['_player'].getAll()
-    meta['Metadata']['mpris:artUrl'] = get_album_art(meta['Metadata']['mpris:artUrl'])
+    if meta['Metadata']:
+        meta['Metadata']['mpris:artUrl'] = get_album_art(meta['Metadata']['mpris:artUrl'])
     meta['html'] = render_template('partials/now_playing.html', **sanitize_dict(meta['Metadata']))
     return jsonify(response=meta, status=True)
 
