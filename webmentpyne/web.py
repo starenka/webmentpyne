@@ -42,6 +42,7 @@ def player_action(action, uri=None, **kwargs):
         mess = 'Not supported player method. Supported methods: %s' % ', '.join(ACTIONS)
         return jsonify(response=mess, status=400)
     resp = getattr(kwargs['_player'], action)() if not uri else getattr(kwargs['_player'], action)(uri)
+    #return getAll or just subset instead of None?
     return jsonify(response=resp, status=200)
 
 

@@ -33,17 +33,17 @@ def connect():
         #monkey patch methods to get/set ifaces' properties to avoid dbus clumsiness
         # qdbus org.mpris.MediaPlayer2.clementine /org/mpris/MediaPlayer2 | grep 'property read'
         for one in ('Metadata', 'Volume', 'LoopStatus', 'PlaybackStatus', 'Position', 'Shuffle'):
-            setattr(iface_player, 'get_%s' % one, partial(get_partial, iface_prop, iface_player.dbus_interface, one))
+            setattr(iface_player, 'get%s' % one, partial(get_partial, iface_prop, iface_player.dbus_interface, one))
         for one in ('Volume', 'Shuffle', 'LoopStatus'):
-            setattr(iface_player, 'set_%s' % one, partial(set_partial, iface_prop, iface_player.dbus_interface, one))
+            setattr(iface_player, 'set%s' % one, partial(set_partial, iface_prop, iface_player.dbus_interface, one))
 
         for one in ('Tracks',):
-            setattr(iface_tracklist, 'get_%s' % one,
+            setattr(iface_tracklist, 'get%s' % one,
                 partial(get_partial, iface_prop, iface_tracklist.dbus_interface, one))
 
         #get_All methods for easy properties extractions
         for one in (iface_player, iface_playlist, iface_tracklist):
-            setattr(one, 'get_All', partial(get_all_partial, iface_prop, one.dbus_interface))
+            setattr(one, 'getAll', partial(get_all_partial, iface_prop, one.dbus_interface))
 
         return iface_player, iface_tracklist, iface_playlist
     except DBusException:
@@ -51,4 +51,4 @@ def connect():
 
 if __name__ == '__main__':
     iface_player, iface_tracklist, iface_playlist = connect()
-    print iface_player.get_All()
+    print iface_player.getAll()
