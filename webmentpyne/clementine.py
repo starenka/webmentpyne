@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import collections
 from functools import partial
 
 import dbus
@@ -7,11 +8,11 @@ from dbus.exceptions import DBusException
 session_bus = dbus.SessionBus()
 
 def get_partial(iface_prop, iface_path, property):
-    return iface_prop.Get(iface_path, property)
+    return convert_to_pytypes(iface_prop.Get(iface_path, property))
 
 
 def get_all_partial(iface_prop, iface_path):
-    return iface_prop.GetAll(iface_path)
+    return convert_to_pytypes(iface_prop.GetAll(iface_path))
 
 
 def set_partial(iface_prop, iface_path, property, value=None):
@@ -30,7 +31,7 @@ def connect():
         iface_playlist = dbus.Interface(program, dbus_interface=PATH_IFACE_PLAYLIST)
         iface_prop = dbus.Interface(program, "org.freedesktop.DBus.Properties")
 
-        #monkey patch methods to get/set ifaces' properties to avoid dbus clumsiness
+        #make methods to get/set ifaces' properties to avoid dbus clumsiness
         # qdbus org.mpris.MediaPlayer2.clementine /org/mpris/MediaPlayer2 | grep 'property read'
         for one in ('Metadata', 'Volume', 'LoopStatus', 'PlaybackStatus', 'Position', 'Shuffle'):
             setattr(iface_player, 'get%s' % one, partial(get_partial, iface_prop, iface_player.dbus_interface, one))
@@ -49,6 +50,26 @@ def connect():
     except DBusException:
         raise
 
+
+def convert_to_pytypes(data):
+    if isinstance(data, dbus.String):
+        return str(data)
+    elif isinstance(data, dbus.Double):
+        return float(data)
+    elif isinstance(data, dbus.Boolean):
+        return bool(data)
+    elif isinstance(data, (dbus.Int16, dbus.Int32, dbus.Int64)):
+        return int(data)
+    elif isinstance(data, (collections.Mapping, dbus.Dictionary)):
+        return dict(map(convert_to_pytypes, data.iteritems()))
+    elif isinstance(data, (collections.Iterable, dbus.Array)):
+        return map(convert_to_pytypes, list(data))
+    else:
+        return data
+
 if __name__ == '__main__':
     iface_player, iface_tracklist, iface_playlist = connect()
-    print iface_player.getAll()
+
+    import pprint
+
+    pprint.pprint(iface_player.getAll())
