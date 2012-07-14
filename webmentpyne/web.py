@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from functools import wraps
 
-from flask import Flask, jsonify, render_template
+from flask import Flask, jsonify, render_template, json
 
 import clementine
 
@@ -24,6 +24,7 @@ def inject_ifaces(f):
         except clementine.DBusException, e:
             return jsonify(response=str(e), status=500)
         return f(*args, **kwargs)
+
     return decorated_function
 
 
@@ -46,10 +47,25 @@ def player_action(action, uri=None, **kwargs):
     return jsonify(response=resp, status=200)
 
 
+def _sanitize_dict(dict_):
+    """
+    we need to strip ":" from dict keys as jinja seems to choke on these,
+    also removing the "namspace" part as it seems irrelevant to me
+    """
+
+    def strip_prefix(item):
+        if ':' not in item[0]:
+            return item
+        return item[0].split(':')[1], item[1]
+
+    return dict(map(strip_prefix, dict_.iteritems()))
+
+
 @app.route('/player/')
 @inject_ifaces
 def player_props(**kwargs):
-    meta = kwargs['_player'].get_All()
+    meta = kwargs['_player'].getAll()
+    meta['html'] = render_template('partials/now_playing.html', **_sanitize_dict(meta['Metadata']))
     return jsonify(response=meta, status=200)
 
 if __name__ == '__main__':
