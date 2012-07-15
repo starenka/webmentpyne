@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 DEBUG = False
+SESSION_KEY = '\xb2+\xf9\xa1\xc4\xcel<\x01\xce\xe9sf\xa1ug:j_\n\xba\x85w|'
 
 #commented players are not supported by this interface / haven't been teseted yet
 #AMAROK = 'org.mpris.MediaPlayer2.amarok'

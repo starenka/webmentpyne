@@ -5,7 +5,7 @@ function get_status() {
                 $('#controls').show();
                 $('#statusbar').show();
                 $('#current').html(data.response.html);
-                $('#status').html(data.response.PlaybackStatus.toLowerCase());
+                $('#status').html('player is: ' + data.response.PlaybackStatus.toLowerCase());
                 $('#shuffle').html('shuffle: ' + (data.response.Shuffle ? 'yes' : 'no'));
                 $('#repeat').html('repeat: ' + data.response.LoopStatus.toLowerCase());
                 $('#volume').html('volume: ' + data.response.Volume.toPrecision(3) * 100 + '%');
@@ -21,6 +21,14 @@ function get_status() {
 $(document).ready(function () {
     $('#controls button').click(function () {
         $.get('/player/' + this.id,function (data, textStatus, jqXHR) {
+            get_status();
+        }).error(function () {
+                alert('It seems that player or webserver is not running.')
+            });
+    });
+
+    $('#remote-form').submit(function () {
+        $.get('/player/OpenUri/' + $('#remote').val(),function (data, textStatus, jqXHR) {
             get_status();
         }).error(function () {
                 alert('It seems that player or webserver is not running.')

@@ -3,13 +3,14 @@
 import shutil, os, urlparse
 from functools import wraps
 
-from flask import Flask, jsonify, render_template
+from flask import Flask, jsonify, render_template, session
 
 import mpris2
 import settings
 
 app = Flask(__name__)
 app.debug = settings.DEBUG
+app.secret_key = settings.SESSION_KEY
 
 PROJECT_DIR = os.path.abspath(os.path.dirname(__file__))
 
@@ -85,11 +86,17 @@ def player_action(action, uri=None, **kwargs):
 @app.route('/player/Volume/<direction>')
 @inject_ifaces
 def player_volume(direction, **kwargs):
+    VOLUME_STEP = 0.1
     volume = kwargs['_player'].getAll()['Volume']
-    add = 0.1
-    if direction == '-':
-        add = -0.1
-    resp = kwargs['_player'].setVolume(volume + add)
+    if volume:
+        session['old_volume'] = volume
+
+    level = session['old_volume'] if volume == 0 else 0
+    if direction == '+':
+        level = volume + VOLUME_STEP
+    elif direction == '-':
+        level = volume - VOLUME_STEP
+    resp = kwargs['_player'].setVolume(level)
     return jsonify(response=resp, status=True)
 
 @app.route('/player/Shuffle/toggle')
