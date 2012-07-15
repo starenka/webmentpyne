@@ -64,7 +64,7 @@ def get_album_art(src):
 
 @app.route('/')
 def index():
-    context = {'title': 'home'}
+    context = {'title': 'home', 'player': settings.PLAYER.split('.')[-1].capitalize() }
     return render_template('index.html', **context)
 
 
