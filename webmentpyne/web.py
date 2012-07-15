@@ -5,7 +5,7 @@ from functools import wraps
 
 from flask import Flask, jsonify, render_template
 
-import clementine
+import mpris2
 import settings
 
 app = Flask(__name__)
@@ -36,10 +36,10 @@ def inject_ifaces(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         try:
-            ifaces = clementine.connect()
+            ifaces = mpris2.connect()
             kwargs.update(
                 dict((var, val) for var, val in zip(('_player', '_tracklist', '_playlist'), ifaces)))
-        except clementine.DBusException, e:
+        except mpris2.DBusException, e:
             return jsonify(response=str(e), status=False)
         return f(*args, **kwargs)
 
