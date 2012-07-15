@@ -23,7 +23,7 @@ $(document).ready(function () {
         $.get('/player/' + this.id,function (data, textStatus, jqXHR) {
             get_status();
         }).error(function () {
-                alert('It seems that Clementine or webserver is not running.')
+                alert('It seems that player or webserver is not running.')
             });
     });
 
