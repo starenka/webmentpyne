@@ -92,6 +92,12 @@ def player_volume(direction, **kwargs):
     resp = kwargs['_player'].setVolume(volume + add)
     return jsonify(response=resp, status=True)
 
+@app.route('/player/Shuffle/toggle')
+@inject_ifaces
+def player_shuffle(**kwargs):
+    resp = kwargs['_player'].setShuffle(not kwargs['_player'].getAll()['Shuffle'])
+    return jsonify(response=resp, status=True)
+
 
 @app.route('/player/')
 @inject_ifaces
