@@ -86,7 +86,7 @@ def player_action(action, uri=None, **kwargs):
 
 @app.route('/player/Volume/<direction>')
 @inject_ifaces
-def player_action(direction, **kwargs):
+def player_volume(direction, **kwargs):
     volume = kwargs['_player'].getAll()['Volume']
     add = 0.1
     if direction == '-':
