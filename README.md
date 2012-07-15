@@ -1,6 +1,6 @@
 ## Wha?
 
-Webmentpyne is a simple web interface for [Clementine](http://www.clementine-player.org/about) player using [MPRIS2](http://specifications.freedesktop.org/mpris-spec/latest/) interface via [D-Bus](http://www.freedesktop.org/wiki/Software/dbus). It allows you to control Clementine (or maybe later on any other player supporting MPRIS2 via D-Bus - f.e. Amarok) from your browser. For now, it's being tested just against Clementine 1.0.1.
+Webmentpyne is a simple web interface for [Clementine](http://www.clementine-player.org/about) player using [MPRIS2](http://specifications.freedesktop.org/mpris-spec/latest/) interface via [D-Bus](http://www.freedesktop.org/wiki/Software/dbus). It allows you to control Clementine (or maybe later on any other player supporting MPRIS2 via D-Bus - f.e. Rhythmbox, Banshe, Amarok...) from your browser. For now, it's being tested just against Clementine 1.0.1.
 
 Motivation behind this "project" was to allow me control my [Rasberry Pi](http://www.raspberrypi.org/) based audio system with my cellphone or laptop. Nevertheless it could be used in zillion other cases.
 

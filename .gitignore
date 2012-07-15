@@ -2,3 +2,4 @@
 .idea
 README
 static/.albumart/*
+local.py

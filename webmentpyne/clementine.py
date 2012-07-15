@@ -5,6 +5,8 @@ from functools import partial
 import dbus
 from dbus.exceptions import DBusException
 
+import settings
+
 session_bus = dbus.SessionBus()
 
 def get_partial(iface_prop, iface_path, property):
@@ -25,7 +27,7 @@ def connect():
     PATH_IFACE_PLAYLIST = 'org.mpris.MediaPlayer2.PlayList'
 
     try:
-        program = session_bus.get_object('org.mpris.MediaPlayer2.clementine', '/org/mpris/MediaPlayer2')
+        program = session_bus.get_object(settings.PLAYER, '/org/mpris/MediaPlayer2')
         iface_player = dbus.Interface(program, dbus_interface=PATH_IFACE_PLAYER)
         iface_tracklist = dbus.Interface(program, dbus_interface=PATH_IFACE_TRACKLIST)
         iface_playlist = dbus.Interface(program, dbus_interface=PATH_IFACE_PLAYLIST)
@@ -74,5 +76,4 @@ if __name__ == '__main__':
     iface_player, iface_tracklist, iface_playlist = connect()
 
     import pprint
-
     pprint.pprint(iface_player.getAll())

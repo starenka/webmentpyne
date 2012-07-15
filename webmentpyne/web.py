@@ -6,9 +6,10 @@ from functools import wraps
 from flask import Flask, jsonify, render_template
 
 import clementine
+import settings
 
 app = Flask(__name__)
-app.debug = True
+app.debug = settings.DEBUG
 
 PROJECT_DIR = os.path.abspath(os.path.dirname(__file__))
 
@@ -48,8 +49,10 @@ def inject_ifaces(f):
 def get_album_art(src):
     """
         We can't serve local files from any location, so let's
-         cache it to our directory
+         cache it to our directory, if src is None serve default image
     """
+    if not src:
+        return 'nocover.jpg'
 
     parsed = list(urlparse.urlparse(src))
     parsed[0] = None
@@ -67,7 +70,7 @@ def index():
 
 @app.route('/connection-error/')
 def error():
-    context = {}
+    context = {'player': settings.PLAYER.split('.')[-1].capitalize() }
     return render_template('partials/connection_error.html', **context)
 
 
@@ -75,12 +78,7 @@ def error():
 @app.route('/player/OpenUri/<path:uri>', defaults={'action': 'OpenUri'})
 @inject_ifaces
 def player_action(action, uri=None, **kwargs):
-    ACTIONS = ('Next', 'Pause', 'Play', 'PlayPause', 'Previous', 'Stop', 'OpenUri')
-    if action not in ACTIONS:
-        mess = 'Not supported player method. Supported methods: %s' % ', '.join(ACTIONS)
-        return jsonify(response=mess, status=False)
     resp = getattr(kwargs['_player'], action)() if not uri else getattr(kwargs['_player'], action)(uri)
-    #return getAll or just subset instead of None?
     return jsonify(response=resp, status=True)
 
 
@@ -100,7 +98,7 @@ def player_volume(direction, **kwargs):
 def player_props(**kwargs):
     meta = kwargs['_player'].getAll()
     if meta['Metadata']:
-        meta['Metadata']['mpris:artUrl'] = get_album_art(meta['Metadata']['mpris:artUrl'])
+        meta['Metadata']['mpris:artUrl'] = get_album_art(meta['Metadata'].get('mpris:artUrl', None))
     meta['html'] = render_template('partials/now_playing.html', **sanitize_dict(meta['Metadata']))
     return jsonify(response=meta, status=True)
 
