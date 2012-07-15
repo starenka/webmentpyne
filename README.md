@@ -6,7 +6,7 @@ Motivation behind this "project" was to allow me control my [Rasberry Pi](http:/
 
 It's just a simle webapp skeleton returning JSON now (the MPRIS2 wrapper needs some love too). I need to do all the HTML/CSS/JS mayhem to make it usable via browser. Just take a look:
 
- ![screenshot](screenshot.png)
+ ![screenshot](http://junk.starenka.net/webmentpyne-new.png)
 
 or fire up the app to check yourself:
 
