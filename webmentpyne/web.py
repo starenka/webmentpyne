@@ -55,8 +55,7 @@ def get_album_art(src):
     parsed[0] = None
     file = os.path.basename(urlparse.urlunparse(parsed))
     tar = os.path.join(os.path.join(PROJECT_DIR, 'static', '.albumart'), file)
-    if not os.path.exists(tar):
-        shutil.copy(urlparse.urlunparse(parsed), tar)
+    shutil.copy(urlparse.urlunparse(parsed), tar)
     return file
 
 
