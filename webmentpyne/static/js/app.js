@@ -6,9 +6,9 @@ function get_status() {
                 $('#statusbar').show();
                 $('#current').html(data.response.html);
                 $('#status').html(data.response.PlaybackStatus.toLowerCase());
-                $('#shuffle').html('shuffle: ' + (data.response.Shuffle?'yes':'no'));
+                $('#shuffle').html('shuffle: ' + (data.response.Shuffle ? 'yes' : 'no'));
                 $('#repeat').html('repeat: ' + data.response.LoopStatus.toLowerCase());
-                $('#volume').html('volume: '+ data.response.Volume*100 + '%');
+                $('#volume').html('volume: ' + data.response.Volume.toPrecision(3) * 100 + '%');
             }
             else {
                 $('#current').load('connection-error');
