@@ -1,7 +1,7 @@
 {% if title %}
-    <h2>{{ artist|join(',') }} - {{ title }}</h2>
-    <h3>{{ album }}</h3>
-        <img src="/static/.albumart/{{ artUrl }}" id="album-art"/>
+    <h3>{{ artist|join(',') }} - {{ title }}</h3>
+    <h4>{{ album }}</h4>
+    <img src="/static/.albumart/{{ artUrl }}" id="album-art"/>
 {% else %}
     <div class="alert alert-error">Player is stopped. Hit the play button, Jack!</div>
 {% endif %}

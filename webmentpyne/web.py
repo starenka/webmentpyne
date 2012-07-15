@@ -65,13 +65,13 @@ def get_album_art(src):
 
 @app.route('/')
 def index():
-    context = {'title': 'home', 'player': settings.PLAYER.split('.')[-1].capitalize() }
+    context = {'title': 'home', 'player': settings.PLAYER.split('.')[-1].capitalize()}
     return render_template('index.html', **context)
 
 
 @app.route('/connection-error/')
 def error():
-    context = {'player': settings.PLAYER.split('.')[-1].capitalize() }
+    context = {'player': settings.PLAYER.split('.')[-1].capitalize()}
     return render_template('partials/connection_error.html', **context)
 
 
@@ -98,6 +98,7 @@ def player_volume(direction, **kwargs):
         level = volume - VOLUME_STEP
     resp = kwargs['_player'].setVolume(level)
     return jsonify(response=resp, status=True)
+
 
 @app.route('/player/Shuffle/toggle')
 @inject_ifaces
