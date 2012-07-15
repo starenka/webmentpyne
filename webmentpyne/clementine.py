@@ -56,7 +56,7 @@ def convert_to_pytypes(data):
     converts dbus monstrosities back to python types
     """
     if isinstance(data, dbus.String):
-        return str(data)
+        return unicode(data)
     elif isinstance(data, dbus.Double):
         return float(data)
     elif isinstance(data, dbus.Boolean):
