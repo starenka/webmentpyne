@@ -1,2 +1,4 @@
 dbus-python==1.1.1
 flask
+gunicorn
+gevent

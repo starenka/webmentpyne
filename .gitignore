@@ -3,3 +3,6 @@
 README
 static/.albumart/*
 local.py
+app.pid
+app.log
+.env
