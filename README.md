@@ -24,7 +24,7 @@ or fire up the app to check yourself:
     Installing setuptools............done.
     Installing pip...............done.
     starenka /tmp/webmentpyne % source .env/bin/activate
-    (.env)starenka /tmp/webmentpyne % pip install requirements.pip
+    (.env)starenka /tmp/webmentpyne % pip install -r requirements.pip
     ....... this will take a while ........
     (.env)starenka /tmp/webmentpyne/webmentpyne % ./run.sh
 	2012-07-23 00:51:18 [26136] [INFO] Starting gunicorn 0.14.5
