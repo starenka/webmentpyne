@@ -26,8 +26,14 @@ or fire up the app to check yourself:
     starenka /tmp/webmentpyne % source .env/bin/activate
     (.env)starenka /tmp/webmentpyne % pip install requirements.pip
     ....... this will take a while ........
-    (.env)starenka /tmp/webmentpyne % python webmentpyne/web.py
-     * Running on http://127.0.0.1:5000/
-     * Restarting with reloader
+    (.env)starenka /tmp/webmentpyne/webmentpyne % ./run.sh
+	2012-07-23 00:51:18 [26136] [INFO] Starting gunicorn 0.14.5
+	2012-07-23 00:51:18 [26136] [INFO] Listening at: http://0.0.0.0:5000 (26136)
+	2012-07-23 00:51:18 [26136] [INFO] Using worker: gevent
+	2012-07-23 00:51:18 [26139] [INFO] Booting worker with pid: 26139
+	2012-07-23 00:51:18 [26142] [INFO] Booting worker with pid: 26142
+	2012-07-23 00:51:18 [26141] [INFO] Booting worker with pid: 26141
+	2012-07-23 00:51:18 [26140] [INFO] Booting worker with pid: 26140
+	2012-07-23 00:51:18 [26143] [INFO] Booting worker with pid: 26143
 
 I'd like to implement some Playlist and Tracklist features in the future. Feel free to help me out!
